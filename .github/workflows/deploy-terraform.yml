@@ -25,6 +25,9 @@ jobs:
     - name: 📥 Checkout code
       uses: actions/checkout@v3
 
+    - name: Create Terraform Plugin Cache Directory
+      run: mkdir -p ~/.terraform.d/plugin-cache
+
     - name: 🧱 Cache Terraform modules
       uses: actions/cache@v3
       with:
@@ -47,11 +50,11 @@ jobs:
       with:
         terraform_version: 1.6.6
 
-    - name: 🧹 Clean previous Terraform state
+    - name: 🧹 Clean previous Terraform state and cache
       run: rm -rf .terraform .terraform.lock.hcl
 
     - name: 🧱 Terraform Init (CAF compatible)
-      run: terraform init -upgrade
+      run: terraform init -upgrade -reconfigure
 
     - name: ✅ Terraform Validate
       run: terraform validate
