@@ -14,42 +14,50 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      ARM_CLIENT_ID: f13d535c-245d-4da4-819d-c214e657bff7
+      ARM_TENANT_ID: 63c1f02b-5eeb-420d-b256-df9c0e96e11e
+      ARM_SUBSCRIPTION_ID: 57480482-27fc-46a6-8643-ee45484365ec
+      ARM_USE_OIDC: true
+      TF_PLUGIN_CACHE_DIR: ~/.terraform.d/plugin-cache
+
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v3
 
+    - name: 🧱 Cache Terraform modules
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.terraform.d/plugin-cache
+          .terraform
+        key: ${{ runner.os }}-terraform-${{ hashFiles('**/*.tf') }}
+        restore-keys: |
+          ${{ runner.os }}-terraform-
+
     - name: 🔐 Azure Login with OIDC
       uses: azure/login@v1
       with:
-        client-id: f13d535c-245d-4da4-819d-c214e657bff7
-        tenant-id: 63c1f02b-5eeb-420d-b256-df9c0e96e11e
-        subscription-id: 57480482-27fc-46a6-8643-ee45484365ec
+        client-id: ${{ env.ARM_CLIENT_ID }}
+        tenant-id: ${{ env.ARM_TENANT_ID }}
+        subscription-id: ${{ env.ARM_SUBSCRIPTION_ID }}
 
     - name: ⚙️ Setup Terraform
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.6.6
 
-    - name: 🧱 Terraform Init (with OIDC)
-      env:
-        ARM_CLIENT_ID: f13d535c-245d-4da4-819d-c214e657bff7
-        ARM_TENANT_ID: 63c1f02b-5eeb-420d-b256-df9c0e96e11e
-        ARM_SUBSCRIPTION_ID: 57480482-27fc-46a6-8643-ee45484365ec
-        ARM_USE_OIDC: true
-      run: terraform init
+    - name: 🧹 Clean previous Terraform state
+      run: rm -rf .terraform .terraform.lock.hcl
+
+    - name: 🧱 Terraform Init (CAF compatible)
+      run: terraform init -upgrade
+
+    - name: ✅ Terraform Validate
+      run: terraform validate
 
     - name: 🔍 Terraform Plan
-      env:
-        ARM_CLIENT_ID: f13d535c-245d-4da4-819d-c214e657bff7
-        ARM_TENANT_ID: 63c1f02b-5eeb-420d-b256-df9c0e96e11e
-        ARM_SUBSCRIPTION_ID: 57480482-27fc-46a6-8643-ee45484365ec
-        ARM_USE_OIDC: true
       run: terraform plan -out=tfplan
 
     - name: 🚀 Terraform Apply
-      env:
-        ARM_CLIENT_ID: f13d535c-245d-4da4-819d-c214e657bff7
-        ARM_TENANT_ID: 63c1f02b-5eeb-420d-b256-df9c0e96e11e
-        ARM_SUBSCRIPTION_ID: 57480482-27fc-46a6-8643-ee45484365ec
-        ARM_USE_OIDC: true
       run: terraform apply -auto-approve tfplan
