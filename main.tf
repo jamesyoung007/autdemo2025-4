@@ -1,15 +1,3 @@
-# Terraform configuration for Azure resources using CAF modules
-
-terraform {
-  required_version = ">= 1.5.0"
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 3.0.0"
-    }
-  }
-}
-
 provider "azurerm" {
   features {}
 }
@@ -59,5 +47,5 @@ module "function_app" {
   storage_account_access_key  = module.storage_account.primary_access_key
   application_insights_key    = module.log_analytics.instrumentation_key
   os_type                     = "linux"
-  version                     = "~4"
+  version                     = "~> 4.0"
 }
