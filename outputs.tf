@@ -1,19 +1,19 @@
 output "app_service_plan_id" {
   description = "ID of the App Service Plan."
-  value       = module.app_service_plan.id
+  value       = azurerm_service_plan.plan.id
 }
 
 output "storage_account_name" {
   description = "Name of the Storage Account."
-  value       = module.storage_account.name
+  value       = azurerm_storage_account.storage.name
 }
 
 output "log_analytics_workspace_id" {
   description = "ID of the Log Analytics Workspace."
-  value       = module.log_analytics.id
+  value       = azurerm_log_analytics_workspace.law.id
 }
 
 output "function_app_name" {
   description = "Name of the Function App."
-  value       = module.function_app.name
+  value       = azurerm_linux_function_app.function.name
 }
