@@ -38,8 +38,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-terraform-
 
-    - name: Clean Terraform modules directory
-      run: rm -rf .terraform/modules
+    - name: 🧹 Clean previous Terraform state and cache
+      run: |
+        rm -rf .terraform .terraform.lock.hcl
+        rm -rf .terraform/modules
 
     - name: 🔐 Azure Login with OIDC
       uses: azure/login@v1
@@ -52,9 +54,6 @@ jobs:
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.6.6
-
-    - name: 🧹 Clean previous Terraform state and cache
-      run: rm -rf .terraform .terraform.lock.hcl
 
     - name: 🧱 Terraform Init (CAF compatible)
       run: terraform init -upgrade -reconfigure

@@ -10,7 +10,7 @@ resource "azurerm_resource_group" "main" {
 
 # App Service Plan using CAF module
 module "app_service_plan" {
-  source              = "aztfmod/caf/azurerm//modules/app_service_plan"
+  source              = "github.com/aztfmod/terraform-azurerm-caf//modules/app_service_plan?ref=5.7.14"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   name                = var.app_service_plan_name
@@ -19,7 +19,7 @@ module "app_service_plan" {
 
 # Storage Account using CAF module
 module "storage_account" {
-  source                    = "aztfmod/caf/azurerm//modules/storage_account"
+  source                    = "github.com/aztfmod/terraform-azurerm-caf//modules/storage_account?ref=5.7.14"
   resource_group_name       = azurerm_resource_group.main.name
   location                  = azurerm_resource_group.main.location
   name                      = var.storage_account_name
@@ -29,7 +29,7 @@ module "storage_account" {
 
 # Log Analytics Workspace using CAF module
 module "log_analytics" {
-  source              = "aztfmod/caf/azurerm//modules/log_analytics_workspace"
+  source              = "github.com/aztfmod/terraform-azurerm-caf//modules/log_analytics_workspace?ref=5.7.14"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
   name                = var.log_analytics_workspace_name
@@ -38,7 +38,7 @@ module "log_analytics" {
 
 # Function App using CAF module
 module "function_app" {
-  source                      = "aztfmod/caf/azurerm//modules/function_app"
+  source                      = "github.com/aztfmod/terraform-azurerm-caf//modules/function_app?ref=4.22.0"
   resource_group_name         = azurerm_resource_group.main.name
   location                    = azurerm_resource_group.main.location
   name                        = var.function_app_name
