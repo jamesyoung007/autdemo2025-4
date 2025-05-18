@@ -38,6 +38,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-terraform-
 
+    - name: Clean Terraform modules directory
+      run: rm -rf .terraform/modules
+
     - name: 🔐 Azure Login with OIDC
       uses: azure/login@v1
       with:
