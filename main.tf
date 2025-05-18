@@ -2,74 +2,49 @@ provider "azurerm" {
   features {}
 }
 
-provider "azurerm" {
-  features {}
-  alias = "vhub"
-}
-
 resource "azurerm_resource_group" "main" {
   name     = var.resource_group_name
   location = var.location
 }
 
-module "caf" {
-  source  = "aztfmod/caf/azurerm"
-  version = "5.7.14"
-  providers = {
-    azurerm = azurerm
-    azurerm.vhub = azurerm.vhub
-  }
+module "app_service_plan" {
+  source              = "aztfmod/caf/azurerm//modules/app_service_plan"
+  version             = "5.7.14"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  name                = var.app_service_plan_name
+  sku_name            = var.app_service_plan_sku
+}
 
-  # Resource group context
-  resource_groups = {
-    demo = {
-      name     = var.resource_group_name
-      location = var.location
-    }
-  }
+module "storage_account" {
+  source                    = "aztfmod/caf/azurerm//modules/storage_account"
+  version                   = "5.7.14"
+  resource_group_name       = azurerm_resource_group.main.name
+  location                  = azurerm_resource_group.main.location
+  name                      = var.storage_account_name
+  account_tier              = var.storage_account_tier
+  account_replication_type  = var.storage_account_replication
+}
 
-  # App Service Plan
-  app_service_plans = {
-    demo_plan = {
-      name                = var.app_service_plan_name
-      resource_group_key  = "demo"
-      location            = var.location
-      sku_name            = var.app_service_plan_sku
-    }
-  }
+module "log_analytics" {
+  source              = "aztfmod/caf/azurerm//modules/log_analytics_workspace"
+  version             = "5.7.14"
+  resource_group_name = azurerm_resource_group.main.name
+  location            = azurerm_resource_group.main.location
+  name                = var.log_analytics_workspace_name
+  sku                 = var.log_analytics_workspace_sku
+}
 
-  # Storage Account
-  storage_accounts = {
-    demo_storage = {
-      name                     = var.storage_account_name
-      resource_group_key       = "demo"
-      location                 = var.location
-      account_tier             = var.storage_account_tier
-      account_replication_type = var.storage_account_replication
-    }
-  }
-
-  # Log Analytics Workspace
-  log_analytics_workspaces = {
-    demo_law = {
-      name               = var.log_analytics_workspace_name
-      resource_group_key = "demo"
-      location           = var.location
-      sku                = var.log_analytics_workspace_sku
-    }
-  }
-
-  # Function App
-  function_apps = {
-    demo_func = {
-      name                       = var.function_app_name
-      resource_group_key         = "demo"
-      location                   = var.location
-      app_service_plan_key       = "demo_plan"
-      storage_account_key        = "demo_storage"
-      log_analytics_workspace_key = "demo_law"
-      os_type                    = "linux"
-      version                    = "~4"
-    }
-  }
+module "function_app" {
+  source                      = "aztfmod/caf/azurerm//modules/function_app"
+  version                     = "5.7.14"
+  resource_group_name         = azurerm_resource_group.main.name
+  location                    = azurerm_resource_group.main.location
+  name                        = var.function_app_name
+  app_service_plan_id         = module.app_service_plan.id
+  storage_account_name        = module.storage_account.name
+  storage_account_access_key  = module.storage_account.primary_access_key
+  application_insights_key    = module.log_analytics.instrumentation_key
+  os_type                     = "linux"
+  version_function            = "~4"
 }
