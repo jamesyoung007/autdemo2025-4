@@ -2,6 +2,11 @@ provider "azurerm" {
   features {}
 }
 
+provider "azurerm" {
+  features {}
+  alias = "vhub"
+}
+
 resource "azurerm_resource_group" "main" {
   name     = var.resource_group_name
   location = var.location
@@ -10,6 +15,10 @@ resource "azurerm_resource_group" "main" {
 module "caf" {
   source  = "aztfmod/caf/azurerm"
   version = "5.7.14"
+  providers = {
+    azurerm = azurerm
+    azurerm.vhub = azurerm.vhub
+  }
 
   # Resource group context
   resource_groups = {
