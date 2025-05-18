@@ -52,12 +52,12 @@ module "log_analytics" {
 module "function_app" {
   source  = "aztfmod/caf/azurerm//modules/function_app"
   resource_group_name      = azurerm_resource_group.main.name
-  location                = azurerm_resource_group.main.location
-  name                    = var.function_app_name
-  app_service_plan_id     = module.app_service_plan.id
-  storage_account_name    = module.storage_account.name
+  location                 = azurerm_resource_group.main.location
+  name                     = var.function_app_name
+  app_service_plan_id      = module.app_service_plan.id
+  storage_account_name     = module.storage_account.name
   storage_account_access_key = module.storage_account.primary_access_key
   application_insights_key   = module.log_analytics.instrumentation_key
-  os_type                 = "linux"
-  version                 = "~4"
+  os_type                  = "linux"
+  version                  = "~4"
 }
