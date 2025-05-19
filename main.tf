@@ -72,31 +72,6 @@ module "app_service_plan" {
   }
 }
 
-module "function_app" {
-  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/function_app?ref=5.6.7"
-
-  resource_group_name = var.resource_group_name
-  location            = var.location
-
-  function_apps = {
-    "main" = {
-      name                      = "autdemo4-functionapp1234"
-      app_service_plan_id       = module.app_service_plan.app_service_plans["main"].id
-      storage_account_name      = module.storage_account.storage_accounts["main"].name
-      storage_account_key       = module.storage_account.storage_accounts["main"].primary_access_key
-      os_type                   = "linux"
-      runtime_stack             = "node"
-      runtime_version           = "18"
-      use_32_bit_worker_process = false
-      application_settings = {
-        FUNCTIONS_WORKER_RUNTIME   = "node"
-        WEBSITE_RUN_FROM_PACKAGE   = "1"
-        LOG_ANALYTICS_WORKSPACE_ID = module.log_analytics.log_analytics["main"].id
-      }
-    }
-  }
-}
-
 module "caf_function_app" {
   source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/function_app?ref=5.6.7"
   resource_group_name = var.resource_group_name
