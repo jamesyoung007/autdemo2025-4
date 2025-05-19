@@ -29,7 +29,10 @@ variable "resource_group_name" {
   default = "AUT-2025-demo_4"
 }
 
-
+resource "azurerm_resource_group" "main" {
+  name     = var.resource_group_name
+  location = var.location
+}
 
 module "storage_account" {
   source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/st?ref=main"
