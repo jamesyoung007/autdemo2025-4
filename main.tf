@@ -32,9 +32,9 @@ variable "resource_group_name" {
 module "storage_account" {
   source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/st?ref=main"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  prefix              = "autdemo4"
+  resource_group_name   = var.resource_group_name
+  location              = var.location
+  storage_account_name  = "autdemo4storage"
 }
 
 module "log_analytics" {
