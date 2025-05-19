@@ -45,17 +45,17 @@ module "log_analytics" {
   prefix              = "autdemo4"
 }
 
-
-
 module "function_app" {
-  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/func?ref=main"
+  source = "github.com/jamesyoung007/autdemo2025-3.git//modules/func?ref=main"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  prefix              = "autdemo4"
-  app_service_plan_id = module.app_service_plan.app_service_plan_id
-  storage_account_name = module.storage_account.storage_account_name
-  storage_account_key  = module.storage_account.storage_account_key
+  location                  = var.location
+  resource_group_name       = var.resource_group_name
+  storage_account_name      = module.storage_account.storage_account_name
+  storage_account_access_key = module.storage_account.storage_account_access_key
+  function_app_name         = "autdemo4-func"
+  service_plan_name         = module.app_service_plan.service_plan_name
+  service_plan_id           = module.app_service_plan.service_plan_id
+  service_plan_sku          = module.app_service_plan.service_plan_sku
   log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
 }
 
