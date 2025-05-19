@@ -47,6 +47,15 @@ module "log_analytics" {
   log_analytics_workspace_name  = "autdemo4-law"
 }
 
+module "app_service_plan" {
+  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/app_service_plan?ref=main"
+
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  service_plan_name   = "autdemo4-asp"
+  service_plan_sku    = "Y1"
+}
+
 module "function_app" {
   source = "github.com/jamesyoung007/autdemo2025-3.git//modules/func?ref=main"
 
