@@ -14,6 +14,7 @@ resource "azurerm_service_plan" "plan" {
   os_type             = "Windows"
   sku_name            = "B1"
   zone_balancing_enabled = false
+  depends_on = [azurerm_resource_group.main]
 }
 
 resource "azurerm_storage_account" "storage" {
@@ -22,6 +23,7 @@ resource "azurerm_storage_account" "storage" {
   location                 = azurerm_resource_group.main.location
   account_tier             = var.storage_account_tier
   account_replication_type = var.storage_account_replication
+  depends_on = [azurerm_resource_group.main]
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
@@ -30,15 +32,17 @@ resource "azurerm_log_analytics_workspace" "law" {
   resource_group_name = var.resource_group_name
   sku                 = var.log_analytics_workspace_sku
   retention_in_days   = 30
+  depends_on = [azurerm_resource_group.main]
 }
 
-resource "azurerm_linux_function_app" "function" {
+resource "azurerm_windows_function_app" "function" {
   name                       = "autdemo4-functionapp1234"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   service_plan_id            = azurerm_service_plan.plan.id
   storage_account_name       = azurerm_storage_account.storage.name
   storage_account_access_key = azurerm_storage_account.storage.primary_access_key
+  depends_on = [azurerm_resource_group.main]
 
   site_config {
     application_stack {
