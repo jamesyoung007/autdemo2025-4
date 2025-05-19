@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "main" {
 }
 
 resource "azurerm_service_plan" "plan" {
-  name                = var.app_service_plan_name
+  name                = "autdemo4-function-plan"
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Linux"
@@ -16,7 +16,7 @@ resource "azurerm_service_plan" "plan" {
 }
 
 resource "azurerm_storage_account" "storage" {
-  name                     = var.storage_account_name
+  name                     = "autdemos4torage1234"
   resource_group_name      = azurerm_resource_group.main.name
   location                 = azurerm_resource_group.main.location
   account_tier             = var.storage_account_tier
@@ -24,7 +24,7 @@ resource "azurerm_storage_account" "storage" {
 }
 
 resource "azurerm_log_analytics_workspace" "law" {
-  name                = var.log_analytics_workspace_name
+  name                = "autdemo4-law"
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = var.log_analytics_workspace_sku
@@ -32,7 +32,7 @@ resource "azurerm_log_analytics_workspace" "law" {
 }
 
 resource "azurerm_linux_function_app" "function" {
-  name                       = var.function_app_name
+  name                       = "autdemo4-functionapp1234"
   location                   = azurerm_resource_group.main.location
   resource_group_name        = azurerm_resource_group.main.name
   service_plan_id            = azurerm_service_plan.plan.id

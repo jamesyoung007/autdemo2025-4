@@ -1,6 +1,6 @@
 variable "resource_group_name" {
-  description = "Name of the resource group."
   type        = string
+  default     = "AUT-2025-demo-4"
 }
 
 variable "location" {
@@ -15,9 +15,8 @@ variable "app_service_plan_name" {
 }
 
 variable "app_service_plan_sku" {
-  description = "SKU for the App Service Plan."
   type        = string
-  default     = "P1v2"
+  default     = "Y1"
 }
 
 variable "storage_account_name" {
@@ -26,13 +25,11 @@ variable "storage_account_name" {
 }
 
 variable "storage_account_tier" {
-  description = "Tier for the Storage Account."
   type        = string
   default     = "Standard"
 }
 
 variable "storage_account_replication" {
-  description = "Replication type for the Storage Account."
   type        = string
   default     = "LRS"
 }
@@ -43,7 +40,6 @@ variable "log_analytics_workspace_name" {
 }
 
 variable "log_analytics_workspace_sku" {
-  description = "SKU for the Log Analytics Workspace."
   type        = string
   default     = "PerGB2018"
 }
