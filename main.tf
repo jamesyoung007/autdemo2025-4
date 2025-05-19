@@ -40,9 +40,9 @@ module "storage_account" {
 module "log_analytics" {
   source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/monitoring?ref=main"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  prefix              = "autdemo4"
+  resource_group_name           = var.resource_group_name
+  location                     = var.location
+  log_analytics_workspace_name  = "autdemo4-law"
 }
 
 module "function_app" {
