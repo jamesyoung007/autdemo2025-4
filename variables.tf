@@ -17,7 +17,7 @@ variable "app_service_plan_name" {
 
 variable "app_service_plan_sku" {
   type        = string
-  default     = "Y1"
+  default     = "P1v2"
 }
 
 variable "storage_account_name" {
