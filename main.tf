@@ -56,7 +56,6 @@ module "function_app" {
   service_plan_name         = module.app_service_plan.service_plan_name
   service_plan_id           = module.app_service_plan.service_plan_id
   service_plan_sku          = module.app_service_plan.service_plan_sku
-  log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
 }
 
 
