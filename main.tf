@@ -26,11 +26,15 @@ variable "resource_group_name" {
 module "storage_account" {
   source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/storage_account?ref=5.6.7"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
-
-  storage_accounts = {
-    "main" = {
+  client_config   = {}
+  global_settings = {}
+  base_tags       = {}
+  resource_group  = {
+    name     = var.resource_group_name
+    location = var.location
+  }
+  storage_account = {
+    autdemo4storage = {
       name                     = "autdemo4storage"
       account_tier             = "Standard"
       account_replication_type = "LRS"
