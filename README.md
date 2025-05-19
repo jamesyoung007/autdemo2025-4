@@ -1,6 +1,6 @@
-# AUTDEMO2025-4: Azure resources with standard Terraform AzureRM provider.
+# AUTDEMO2025-4: Azure resources with CAF modules
 
-This configuration deploys the following Azure resources using the official [AzureRM provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs):
+This configuration deploys the following Azure resources using the official [CAF modules](https://github.com/aztfmod/terraform-azurerm-caf/tree/main/modules):
 - App Service Plan
 - Function App
 - Log Analytics Workspace
@@ -36,8 +36,8 @@ This configuration deploys the following Azure resources using the official [Azu
 - Uses Azure Managed Identity for authentication (no credentials in code)
 - State is stored securely in Azure Storage
 - Follows [Terraform Style Guide](https://developer.hashicorp.com/terraform/language/style)
-- Uses official AzureRM provider for consistency and compliance
+- Uses official CAF modules for consistency and compliance
 
 ## References
-- [AzureRM provider](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs)
+- [CAF modules](https://github.com/aztfmod/terraform-azurerm-caf/tree/main/modules)
 - [Azure Portal](https://portal.azure.com/)

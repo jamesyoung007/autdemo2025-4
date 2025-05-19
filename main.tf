@@ -31,7 +31,7 @@ module "storage_account" {
 
   storage_accounts = {
     "main" = {
-      name                     = "autdemo4storage1234"
+      name                     = "autdemo4storage"
       account_tier             = "Standard"
       account_replication_type = "LRS"
       enable_https_traffic_only = true
@@ -55,12 +55,12 @@ module "log_analytics" {
 }
 
 module "app_service_plan" {
-  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/app_service_plan?ref=5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/app_service_plans?ref=5.6.7"
   resource_group_name = var.resource_group_name
   location            = var.location
   app_service_plans = {
     "main" = {
-      name             = "autdemo4-function-plan"
+      name             = "autdemo4-asp"
       kind             = "FunctionApp"
       sku_tier         = "Dynamic"
       sku_size         = "Y1"
@@ -76,7 +76,7 @@ module "caf_function_app" {
   location            = var.location
   function_apps = {
     "main" = {
-      name                      = "autdemo4-caf-functionapp"
+      name                      = "autdemo4-func"
       service_plan_id           = module.app_service_plan.app_service_plans["main"].id
       storage_account_name      = module.storage_account.storage_accounts["main"].name
       storage_account_key       = module.storage_account.storage_accounts["main"].primary_access_key
