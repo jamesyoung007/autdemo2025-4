@@ -23,6 +23,7 @@ variable "app_service_plan_sku" {
 variable "storage_account_name" {
   description = "Name of the Storage Account."
   type        = string
+  default = "jamestestsa"
 }
 
 variable "storage_account_tier" {
@@ -38,6 +39,7 @@ variable "storage_account_replication" {
 variable "log_analytics_workspace_name" {
   description = "Name of the Log Analytics Workspace."
   type        = string
+  default = "jamesloganalyticsworkspacename"
 }
 
 variable "log_analytics_workspace_sku" {
@@ -48,4 +50,5 @@ variable "log_analytics_workspace_sku" {
 variable "function_app_name" {
   description = "Name of the Function App."
   type        = string
+  default = "jamesfunctionappname"
 }
