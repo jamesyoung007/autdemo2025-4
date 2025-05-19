@@ -55,11 +55,9 @@ module "log_analytics" {
 }
 
 module "app_service_plan" {
-  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/app_service_plans?ref=5.6.7"
-
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/app_service_plan?ref=5.6.7"
   resource_group_name = var.resource_group_name
   location            = var.location
-
   app_service_plans = {
     "main" = {
       name             = "autdemo4-function-plan"
