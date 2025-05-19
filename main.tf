@@ -13,6 +13,7 @@ resource "azurerm_service_plan" "plan" {
   resource_group_name = azurerm_resource_group.main.name
   os_type             = "Windows"
   sku_name            = "B1"
+  zone_balancing_enabled = false
 }
 
 resource "azurerm_storage_account" "storage" {
