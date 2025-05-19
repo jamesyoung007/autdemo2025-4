@@ -45,13 +45,7 @@ module "log_analytics" {
   prefix              = "autdemo4"
 }
 
-module "app_service_plan" {
-  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/app_service_plan?ref=main"
 
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  prefix              = "autdemo4"
-}
 
 module "function_app" {
   source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/func?ref=main"
