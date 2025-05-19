@@ -29,6 +29,8 @@ variable "resource_group_name" {
   default = "AUT-2025-demo_4"
 }
 
+
+
 module "storage_account" {
   source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/st?ref=main"
 
