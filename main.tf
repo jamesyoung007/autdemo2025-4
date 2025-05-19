@@ -24,8 +24,7 @@ variable "resource_group_name" {
 }
 
 module "storage_account" {
-  source  = "aztfmod/caf/azurerm//modules/storage_account"
-  version = "5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/storage_account?ref=5.6.7"
 
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -41,8 +40,7 @@ module "storage_account" {
 }
 
 module "log_analytics" {
-  source  = "aztfmod/caf/azurerm//modules/monitoring"
-  version = "5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/monitoring?ref=5.6.7"
 
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -57,8 +55,7 @@ module "log_analytics" {
 }
 
 module "app_service_plan" {
-  source  = "aztfmod/caf/azurerm//modules/app_service_plans"
-  version = "5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/app_service_plans?ref=5.6.7"
 
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -76,8 +73,7 @@ module "app_service_plan" {
 }
 
 module "function_app" {
-  source  = "aztfmod/caf/azurerm//modules/function_app"
-  version = "5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/function_app?ref=5.6.7"
 
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -102,8 +98,7 @@ module "function_app" {
 }
 
 module "function_diagnostics" {
-  source  = "aztfmod/caf/azurerm//modules/monitor_diagnostic_settings"
-  version = "5.6.7"
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/monitor_diagnostic_settings?ref=5.6.7"
 
   diagnostic_settings = {
     "function" = {
