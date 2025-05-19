@@ -28,7 +28,7 @@ module "storage_account" {
 
   client_config   = {}
   global_settings = {}
-  base_tags       = {}
+  base_tags       = false
   resource_group  = {
     name     = var.resource_group_name
     location = var.location
