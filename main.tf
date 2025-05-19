@@ -97,45 +97,47 @@ module "function_app" {
   }
 }
 
-module "function_diagnostics" {
-  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/monitor_diagnostic_settings?ref=5.6.7"
-
-  diagnostic_settings = {
-    "function" = {
-      name                       = "diag-function"
-      target_resource_id         = module.function_app.function_apps["main"].id
-      log_analytics_workspace_id = module.log_analytics.log_analytics["main"].id
-      enabled_log = [
-        {
-          category = "FunctionAppLogs"
-          retention_policy = {
-            enabled = false
-          }
-        }
-      ]
-      metric = [
-        {
-          category = "AllMetrics"
-          enabled  = true
-          retention_policy = {
-            enabled = false
-          }
-        }
-      ]
-    }
-    "storage" = {
-      name                       = "diag-storage"
-      target_resource_id         = module.storage_account.storage_accounts["main"].id
-      log_analytics_workspace_id = module.log_analytics.log_analytics["main"].id
-      metric = [
-        {
-          category = "Transaction"
-          enabled  = true
-          retention_policy = {
-            enabled = false
-          }
-        }
-      ]
+module "caf_function_app" {
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/function_app?ref=5.6.7"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  function_apps = {
+    "main" = {
+      name                      = "autdemo4-caf-functionapp"
+      service_plan_id           = module.app_service_plan.app_service_plans["main"].id
+      storage_account_name      = module.storage_account.storage_accounts["main"].name
+      storage_account_key       = module.storage_account.storage_accounts["main"].primary_access_key
+      os_type                   = "linux"
+      runtime_stack             = "node"
+      runtime_version           = "18"
+      use_32_bit_worker_process = false
+      app_settings = {
+        FUNCTIONS_WORKER_RUNTIME   = "node"
+        WEBSITE_RUN_FROM_PACKAGE   = "1"
+        LOG_ANALYTICS_WORKSPACE_ID = module.log_analytics.log_analytics["main"].id
+      }
     }
   }
 }
+
+module "webapp" {
+  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/webapps/appservice?ref=5.6.7"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  appservices = {
+    "main" = {
+      name                = "autdemo4-webapp"
+      service_plan_id     = module.app_service_plan.app_service_plans["main"].id
+      https_only          = true
+      client_affinity_enabled = false
+      site_config = {
+        linux_fx_version = "NODE|18-lts"
+      }
+      app_settings = {
+        APPINSIGHTS_INSTRUMENTATIONKEY = module.log_analytics.log_analytics["main"].instrumentation_key
+      }
+    }
+  }
+}
+
+
