@@ -38,7 +38,6 @@ module "storage_account" {
       name                     = "autdemo4storage"
       account_tier             = "Standard"
       account_replication_type = "LRS"
-      enable_https_traffic_only = true
     }
   }
 }
