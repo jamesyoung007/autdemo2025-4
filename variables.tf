@@ -12,6 +12,7 @@ variable "location" {
 variable "app_service_plan_name" {
   description = "Name of the App Service Plan."
   type        = string
+  default = "jamesappserviceplan"
 }
 
 variable "app_service_plan_sku" {
