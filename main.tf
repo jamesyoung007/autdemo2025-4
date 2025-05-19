@@ -30,22 +30,39 @@ variable "resource_group_name" {
 }
 
 module "storage_account" {
-  source  = "github.com/aztfmod/terraform-azurerm-caf.git//modules/storage_account?ref=5.6.7"
+  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/st?ref=main"
 
-  client_config   = {}
-  global_settings = {}
-  base_tags       = false
-  resource_group  = {
-    name     = var.resource_group_name
-    location = var.location
-  }
-  storage_account = {
-    autdemo4storage = {
-      name                     = "autdemo4storage"
-      account_tier             = "Standard"
-      account_replication_type = "LRS"
-    }
-  }
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  prefix              = "autdemo4"
+}
+
+module "log_analytics" {
+  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/monitoring?ref=main"
+
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  prefix              = "autdemo4"
+}
+
+module "app_service_plan" {
+  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/app_service_plan?ref=main"
+
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  prefix              = "autdemo4"
+}
+
+module "function_app" {
+  source  = "github.com/jamesyoung007/autdemo2025-3.git//modules/func?ref=main"
+
+  resource_group_name = var.resource_group_name
+  location            = var.location
+  prefix              = "autdemo4"
+  app_service_plan_id = module.app_service_plan.app_service_plan_id
+  storage_account_name = module.storage_account.storage_account_name
+  storage_account_key  = module.storage_account.storage_account_key
+  log_analytics_workspace_id = module.log_analytics.log_analytics_workspace_id
 }
 
 
