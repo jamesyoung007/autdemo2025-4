@@ -1,4 +1,4 @@
-# AUTDEMO2025-4: Azure resources with CAF modules
+# AUTDEMO2025-4-5: Azure resources with CAF modules
 
 This configuration deploys the following Azure resources using the official [CAF modules](https://github.com/aztfmod/terraform-azurerm-caf/tree/main/modules):
 - App Service Plan
